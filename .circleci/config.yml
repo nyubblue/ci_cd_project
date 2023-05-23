@@ -3,11 +3,16 @@ jobs:
   print_hello:
     docker:
       - image: circleci/node:13.8.0
+    environment:
+      - CIRCLE_COMPARE_URL: << pipeline.project.git_url >>/compare/<< pipeline.git.base_revision >>..<<pipeline.git.revision>>
+    working_directory: ~/main
     steps:
       - run:
           name: Run hello
           command: |
             echo "Hello"
+            echo "This is pipeline ID << pipeline.id >>"
+            echo $CIRCLE_COMPARE_URL
   print_world:
     docker:
       - image: circleci/node:13.8.0
