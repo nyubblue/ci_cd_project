@@ -22,3 +22,12 @@ jobs:
           name: Run World
           command: |
             echo " World!"
+
+workflows:
+  # Name the workflow "welcome"
+  welcome:
+    # Run the welcome/run job in its own container
+    jobs:
+      - print_hello
+      - print_world:
+        requires: print_hello
