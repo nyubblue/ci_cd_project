@@ -3,25 +3,29 @@ jobs:
   save_hello_world_output:
     docker:
       - image: circleci/node:13.8.0
+    working_directory: /tmp
     steps:
       - run:
           name: Run save file
           command: |
-            echo "My text to output here" > output.txt
+            mkdir -p workspace
+            echo "My text to output here" > workspace/output.txt
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
-            - output.txt
+            - "**.txt"
   print_output_file:
     docker:
       - image: circleci/node:13.8.0
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
           name: Run read sharing files
           command: |
             echo " World!"
-      - attach_workspace:
-          at: /tmp/workspace
+            cat /tmp/workspace/output.txt
+
 workflows:
   default:
     jobs:
