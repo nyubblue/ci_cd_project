@@ -10,9 +10,8 @@ jobs:
       - run:
           name: Run hello
           command: |
-            echo "Hello"
             echo "This is pipeline ID << pipeline.id >>"
-            echo $CIRCLE_COMPARE_URL
+            echo $MY_ENV_VR
   print_world:
     docker:
       - image: circleci/node:13.8.0
