@@ -1,31 +1,31 @@
 version: 2.1
 jobs:
-  print_hello:
+  save_hello_world_output:
     docker:
       - image: circleci/node:13.8.0
-    environment:
-      - CIRCLE_COMPARE_URL: << pipeline.project.git_url >>/compare/<< pipeline.git.base_revision >>..<<pipeline.git.revision>>
-    working_directory: ~/main
     steps:
       - run:
-          name: Run hello
+          name: Run save file
           command: |
-            echo "Hello"
-            echo "This is pipeline ID << pipeline.id >>"
-            echo $CIRCLE_COMPARE_URL
-  print_world:
+            echo "My text to output here" > output.txt
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - /output.txt
+  print_output_file:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - run:
-          name: Run World
+          name: Run read sharing files
           command: |
             echo " World!"
-
+      - attach_workspace:
+          at: /tmp/workspace
 workflows:
   default:
     jobs:
-      - print_hello
-      - print_world:
+      - save_hello_world_output
+      - print_output_file:
           requires:
-            - print_hello
+            - save_hello_world_output
