@@ -6,22 +6,18 @@ commands:
         type: string
         default: "Default"
     steps:
-    - run: echo << parameters.id >>
+    - run: echo < << parameters.id >>
 jobs:
   print_hello:
     docker:
     - image: circleci/node:13.8.0
     steps:
     - print_pipeline_id
-  print_error:
-    docker:
-    - image: circleci/node:13.8.0
-    steps:
-    - run: echo "On Fail!"
-      when: on_fail
+    - run:
+        command: echo "On Fail!"
+        when: on_fail
 
 workflows:
   print_workflow:
     jobs:
     - print_hello
-    - print_error
