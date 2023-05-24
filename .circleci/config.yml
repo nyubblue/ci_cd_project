@@ -18,6 +18,7 @@ jobs:
     - image: circleci/node:13.8.0
     steps:
     - run: echo "On Fail!"
+      when: on_fail
 
 workflows:
   print_workflow:
