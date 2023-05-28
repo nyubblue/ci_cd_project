@@ -2,15 +2,21 @@ version: 2.1
 jobs:
   configure_infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: python:3.9.16-alpine
     steps:
-      - checkout
+
       - add_ssh_keys:
-          fingerprints: ["0e:09:57:c8:68:36:bb:0a:62:f3:46:70:10:c1:53:16"]
+          fingerprints:
+            - "a6:4a:f9:0d:5d:7e:16:84:80:a5:95:cc:09:e1:0a:11"
+      - checkout
       - run:
           name: Install Ansible
           command: |
             apk add --update ansible
+      - run:
+          name: Check Ansible
+          command: |
+            ansible --version
       - run:
           name: Configure server
           command: |
